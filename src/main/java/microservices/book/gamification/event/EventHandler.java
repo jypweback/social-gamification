@@ -2,7 +2,6 @@ package microservices.book.gamification.event;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import microservices.book.gamification.domain.MultiplicationSolvedEvent;
 import microservices.book.gamification.service.GameService;
 import org.springframework.amqp.AmqpRejectAndDontRequeueException;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;

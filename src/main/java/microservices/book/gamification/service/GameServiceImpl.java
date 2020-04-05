@@ -32,7 +32,7 @@ public class GameServiceImpl implements GameService{
 
     private final ScoreCardRepository scoreCardRepository;
     private final BadgeCardRepository badgeCardRepository;
-    private MultiplicationResultAttemptClient attemptClient;
+    private final MultiplicationResultAttemptClient attemptClient;
 
     @Override
     public GameStats newAttemptForUser(Long userId, Long attemptId, boolean correct) {
@@ -99,6 +99,7 @@ public class GameServiceImpl implements GameService{
 
         // 행운의 숫자 배지
         MultiplicationResultAttempt attempt = attemptClient.retrieveMultiplicationResultAttemptById(attemptId);
+        log.info("API Call result Value : MultiplicationResultAttempt resultAttempt: {}", attempt.getResultAttempt());
 
         if(!containsBadge(badgeCardList, Badge.LUCKY_NUMBER) && (LUCKY_NUMBER == attempt.getMultiplicationFactorA() || LUCKY_NUMBER == attempt.getMultiplicationFactorB())){
             BadgeCard luckyNumberBadge = giveBadgeToUser(Badge.LUCKY_NUMBER, userId);
