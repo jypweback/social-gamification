@@ -1,5 +1,6 @@
 package microservices.book.gamification.service;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import microservices.book.gamification.client.MultiplicationResultAttemptClient;
@@ -139,8 +140,14 @@ public class GameServiceImpl implements GameService{
 
     @Override
     public GameStats retrieveStatsForUser(final Long userId) {
-        int score = scoreCardRepository
-                .getTotalScoreForUser(userId);
+
+        List<ScoreCard> scoreCards = scoreCardRepository.findByUserIdOrderByScoreTimestampDesc(userId);
+
+        int score = 0;
+        if(!scoreCards.isEmpty()){
+            score = scoreCardRepository
+                    .getTotalScoreForUser(userId);
+        }
 
         List<BadgeCard> badgeCards = badgeCardRepository
                 .findByUserIdOrderByBadgeTimestampDesc(userId);
